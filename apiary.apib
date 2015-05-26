@@ -25,7 +25,7 @@ to keep your client decoupled from implementation details.
 
 ## Group Content
 
-Resources related to Content in the API.
+Resources related to Content.
 
 ## Content [/content/{content_type}/{content_id}]
 
@@ -133,7 +133,7 @@ This action allows you to delete a piece of content in CES.
 + Response 200
 
 ##Group Course
-Resources related to a Course in the API.
+Resources related to a Course.
 
 ## Course [/course/{course_id}/]
 A Course object has the following attributes:
@@ -203,10 +203,10 @@ This action will delete a course in CES & send any supported action to 3rd party
 + Response 200 (application/json)
 
 ##Group User
-Resources related to a user in the API
+Resources related to a User.
 
 ##Group User Account
-Resources related to the user account in the API
+Resources related to a User Account
 
 ## User Account [/user/{uuid}/account]
 A User Account object has the following attributes:
@@ -269,7 +269,7 @@ Refresh authentication of User Account in 3rd party & CES
         }        
         
 ##Group User Registration
-Resources related to the user registration in the API
+Resources related to a User Registration.
 
 ## User Registration [/user/{uuid}/registration]
 A User Registration object has the following attributes:
@@ -316,7 +316,7 @@ Remove the User from the Course
 + Response 200 
         
 ##Group Goals
-Resource related to the Goals for a Course
+Resource related to the Goals for a Course.
 
 ## Goal [/goal/]
 A Goal object has the following attributes:
@@ -433,7 +433,7 @@ Updates a Goal in a Course
 
 ## Group Events
 
-Resources related to student events in the API.
+Resources related to student events.
 
 ## Event [/content/{uuid}/{content_id}/{start_time}/{end_time}/{type}/{is_correct}/{reco_id}]
 
@@ -454,7 +454,7 @@ Post a completed event for the user; automatically sends recommendation followed
 
 ## Group Recommendations
 
-Resources related to recommendations in the API
+Resources related to Recommendations.
 
 ## Recommendation [/recommendation/{uuid}/{goal_id}]
 
@@ -474,7 +474,7 @@ Get the next recommendation for the user; automatically sends a focus event
         
 ## Group Reports
 
-Resources related to reporting metrics in the API
+Resources related to Reporting metrics.
 
 ## Report [/report/{data_grouping}/{id}/{metric}]
 
