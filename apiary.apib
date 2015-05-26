@@ -476,24 +476,143 @@ Get the next recommendation for the user; automatically sends a focus event
 
 Resources related to reporting metrics in the API
 
-## Report [/report/{data_grouping}/{id}/{metric_name}]
+## Report [/report/{data_grouping}/{id}/{metric}]
 
 A Report object has the following attributes:
 + data_grouping: type of data for which to generate a report (course or student)
 + id: ID of the user or course, depending on the data grouping, for which to request a report
 + course_id: ID of the course for which to request a report
-+ metric_name: name of the reporting metric (active_time, proficiency, expected_score, readiness)
++ metric: name of the reporting metric (active_time, proficiency, expected_score, readiness)
++ start_date: start date of reporting metric
++ end_date: end date of reporting metric
++ taxon_ids: list of taxon ids for which to generate a report
++ goal_ids: list of goal ids for which to generate a report
++ registration_offset: number of registrations which will appear in first row
++ registrations_per_page: max number of registrations per page
++ dimensions: list of reporting dimensions
++ metrics: list of metrics being reported
++ next: next registration offset & per page
++ previous: previous registration offset & per page
++ column_headers: lists order of content
++ rows: rows of data containing reporting values
+
+
 
 ### Generate a report [GET]
 Get the report for a specific user or for a whole class
 
++ Parameters
+    + data_grouping:     "course" (required, string) - Cengage Course ID
+    + id: "courseKey" (required, string) - Cengage Course Key
+    + metric : "proficiency" (required, string) - reporting metric
+    
+
 + Request (application/json)
 
         {
+            "end_date": "2013-10-24",
+            "start_date": "2013-10-23",
+            "taxon_ids": [
+                "tref-TOC:Ch3|Section2"
+            ]
             
         }
         
 + Response 200 (application/json)
+
+        {
+            "column_headers":
+            [
+                "taxon_tref-TOC:Ch3|Section2|Exam"
+            ],
+            "dimensions": 
+            [
+                "date"
+            ],
+            "metrics": 
+            [
+                "proficiency"
+            ],
+            "next": 
+            {
+                "registration_offset": 6,
+                "registrations_per_page": 5
+            },
+            "previous": null,
+            "query": 
+            {
+                "end_date": "2013-10-23",
+                "filters": 
+                [
+                    "proficiency.relative_estimate>1"
+                ],
+                "registration_offset": 0,
+                "registrations_per_page": 5,
+                "start_date": "2013-10-23",
+                "taxon_ids": 
+                [
+                    "tref-TOC:Ch3|Section2|Exam"
+                ]
+            },
+            "rows": 
+            [
+                {
+                    "date": "2013-10-23",
+                    "proficiencies": 
+                    [
+                        {
+                            "conf": 0.4784821679711042,
+                            "relative_estimate": 2
+                        }
+                    ],
+                    "registration_id": "c434039c-dc74-4449-b83c-69852ce6dc88"
+                },
+                {
+                    "date": "2013-10-23",
+                    "proficiencies": 
+                    [
+                        {
+                            "conf": 0.2,
+                            "relative_estimate": 2
+                        }
+                    ],
+                    "registration_id": "e0649572-5fb5-4a60-ba9e-4d82386bd2ed"
+                },
+                {
+                    "date": "2013-10-23",
+                    "proficiencies": 
+                    [
+                        {
+                            "conf": 0.2,
+                            "relative_estimate": 2
+                        }
+                    ],
+                    "registration_id": "145810e1-b6e2-4e01-b327-892ced4f9a60"
+                },
+                {
+                    "date": "2013-10-23",
+                    "proficiencies": 
+                    [
+                        {
+                            "conf": 0.2716459119537056,
+                            "relative_estimate": 3
+                        }
+                    ],
+                    "registration_id": "15e50c1e-467f-4d6a-a950-0935c22f65c5"
+                },
+                {
+                    "date": "2013-10-23",
+                    "proficiencies": 
+                    [
+                        {
+                            "conf": 0.22248790082190545,
+                            "relative_estimate": 3
+                        }
+                    ],
+                    "registration_id": "3f10a2fd-c14a-4f0d-896c-6127851dd335"
+                }
+            ]
+        }
         
         
 
