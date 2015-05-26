@@ -1,0 +1,499 @@
+FORMAT: 1A
+HOST: http://cengage.com/adaptive/api/v1
+
+# AdaptiveAPI
+
+Adpaptive API allows consumers to create adaptive learning applications.
+
+# Adaptive API Root [/]
+
+This resource does not have any attributes. Instead it offers the initial
+API affordances in the form of the links in the JSON body.
+
+It is recommend to follow the “url” link values,
+[Link](https://tools.ietf.org/html/rfc5988) or Location headers where
+applicable to retrieve resources. Instead of constructing your own URLs,
+to keep your client decoupled from implementation details.
+
+## Retrieve the Entry Point [GET]
+
++ Response 200 (application/json)
+
+        {
+            "adaptive_url": "/adaptive/api/v1"
+        }
+
+## Group Content
+
+Resources related to Content in the API.
+
+## Content [/content/{content_type}/{content_id}]
+
+A Content object has the following attributes:
+
++ id: the Cengage Content ID
++ partner_id: the corresponding 3rd party's Content ID
++ type: the type of content (narrative, assessment, media, key term, web resource)
++ name: the title of the content
++ child_ids: in case of narrative content, the IDs of the children content
++ cxp_urn: in case of media content, the corresponding cxp_urn
++ isbn: the SSO isbn of the corresponding book to which the content belongs
++ chapter_id: an array of chapter IDs to which the content belongs
++ learning_obj_id: an array of learning objective IDs to which the content belongs
++ is_target: boolean indicating whether content is target material
++ is_recommendable: boolean indicating whether content is recommendable material
+
+
++ Parameters
+    + content_type: "media, narrative, assessment" (required, string) - type of content in form of a string
+    + content_id: "3RDPARTYID" (required, string) - ID of partner content in form of a string
+
+### View a Content Detail [GET]
+This action will retrieve a Cengage content ID from the database 
+
++ Response 200 (application/json)
+
+        {
+            "id": "cengage_id",
+            "partner_id": "3rd party content ID",
+            "type": "content_type",
+            "name": "title",
+            "child_ids": "b_head_id, c_head_id",
+            "cxp_urn": "urn_id",
+            "isbn": "sso_isbn",
+            "chapter_id":[{
+                chapter_id_1,
+                chapter_id_2]},
+            "learning_obj_id":[{
+                lo_id_1,
+                lo_id_2}],
+            "is_target": "true or false",
+            "is_recommendable": "true or false"
+        }
+
+
+
+### Insert Content into CES [POST]
+
+This action allows you to add a new piece of content into CES.
+    
++ Request (application/json)
+
+        {
+            "id": "cengage_id",
+            "partner_id": "3rd party content ID",
+            "type": "content_type",
+            "name": "title",
+            "child_ids": "b_head_id, c_head_id",
+            "cxp_urn": "urn_id",
+            "isbn": "sso_isbn",
+            "chapter_id":[{
+                chapter_id_1,
+                chapter_id_2}],
+            "learning_obj_id":[{
+                lo_id_1,
+                lo_id_2}],
+            "is_target": "true or false",
+            "is_recommendable": "true or false"
+        }
+
++ Response 201
+
+### Update Content in CES [PUT]
+
+This action allows you to update a piece of content in CES.  You may provide a partial update or replace everything.
+    
++ Request (application/json)
+
+        {
+            "id": "cengage_id",
+            "partner_id": "3rd party content ID",
+            "type": "content_type",
+            "name": "title",
+            "child_ids": "b_head_id, c_head_id",
+            "cxp_urn": "urn_id",
+            "isbn": "sso_isbn",
+            "chapter_id":[{
+                chapter_id_1,
+                chapter_id_2}],
+            "learning_obj_id"[{
+                lo_id_1,
+                lo_id_2}],
+            "is_target": "true or false",
+            "is_recommendable": "true or false"
+        }
+
++ Response 200
+
+### Delete Content in CES [DELETE]
+
+This action allows you to delete a piece of content in CES.  
+
+
++ Response 200
+
+##Group Course
+Resources related to a Course in the API.
+
+## Course [/course/{course_id}/]
+A Course object has the following attributes:
+
++ id: Cengage course ID
++ title: the course title
++ isbn: the SSO isbn of the course
++ partner_id: 3rd party course ID
++ start_date: Course start date
++ end_date: Course end date
++ is_gated: boolean indicating whether course is gated
+
++ Parameters
+    + course_id: "coursekey" (required, string) - Cengage Course ID
+       
+### View Course Detail [GET]
+This action will retrieve a 3rd party course ID from the database 
+
++ Response 200 (application/json)
+
+        {
+            "id": "cengage course key",
+            "partner_id": "3rd party content ID",
+            "title": "title",
+            "isbn": "sso_isbn",
+            "start_date":"01012016",
+            "end_date":"01012017",
+            "graph_id": "graphID",
+            "is_gated": "true or false"
+        }
+        
+### Create Course [POST]
+This action will create a Course in 3rd party and add to CES
+    
+    
++ Request (application/json)
+
+        {
+            "graph_id": "graphID",
+            "course_name": "title",
+            "start_date": "01012016",
+            "end_date": "01012017",
+            "is_gated": "true",
+            "isbn": "sso_isbn"
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "id": "cengage course key",
+            "partner_id": "3rd party course ID",
+            "title": "title",
+            "isbn": "sso_isbn",
+            "start_date":"01012016",
+            "end_date":"01012017",
+            "graph_id": "graphID",
+            "is_gated": "true",
+            "in_progress": "true"
+        }
+        
+### Delete Course [DELETE]
++ Response 200 (application/json)
+
+##Group User
+Resources related to a user in the API
+
+##Group User Account
+Resources related to the user account in the API
+
+## User Account [/user/{uuid}/account]
+A User Account object has the following attributes:
+
++ uuid: Cengage user ID
++ partner_id: 3rd party user ID
++ access_token: 3rd party access token
++ refresh_token: 3rd party refresh token
++ auth_code: 3rd party auth code
++ expires: authentication expiration date
++ last_login: time of last login
+
++ Parameters
+    + uuid: "f81d4fae-7dec-11d0-a765-00a0c91e6bf6" (required, string) - Cengage User ID
+
+### View User Account [GET]
+Get 3rd Party User Account ID from CES
+
++ Response 200 (application/json)
+
+        {
+            "uuid": "cengage user ID",
+            "partner_id": "3RDPARTYID",
+            "access_token": "3rd party access token",
+            "refresh_token": "3rd party refresh token",
+            "auth_code": "3rd party auth code",
+            "expires": "authentication expiration date",
+            "last_login": "time of last login"
+        }
+
+
+### POST User Account [POST]
+Create & authenticate User Account in 3rd party & add to CES
+
++ Response 200 (application/json)
+
+        {
+            "uuid": "cengage user ID",
+            "partner_id": "3RDPARTYID",
+            "access_token": "3rd party access token",
+            "refresh_token": "3rd party refresh token",
+            "auth_code": "3rd party auth code",
+            "expires": "authentication expiration date",
+            "last_login": "time of last login"
+        }
+        
+### Refresh authentication of User Account [PUT]
+Refresh authentication of User Account in 3rd party & CES
+
++ Response 200 (application/json)
+
+        {
+            "uuid": "cengage user ID",
+            "partner_id": "3RDPARTYID",
+            "access_token": "3rd party access token",
+            "refresh_token": "3rd party refresh token",
+            "auth_code": "3rd party auth code",
+            "expires": "authentication expiration date",
+            "last_login": "time of last login"
+        }        
+        
+##Group User Registration
+Resources related to the user registration in the API
+
+## User Registration [/user/{uuid}/registration]
+A User Registration object has the following attributes:
+
++ uuid: Cengage user ID
++ course_id: Cengage Course Key
++ reg_id: 3rd party Registration ID
++ type: type of user (instructor, learner, TA, admin)
+
+## User Registration by Course [/{uuid}/{course_id}]
+
+### View User Registration by Course [GET] 
+Get User Registration ID & Type of User
+
++ Parameters
+    + uuid:     "cengage UUID" (required, string) - Cengage User ID
+    + course_id: "MTABCD1EF23G" (required, string) - Cengage Course Key
+
++ Response 200 (application/json)
+
+        {
+            "reg_id": "3rd party registration ID",
+            "type": "learner||instructor||TA||admin"
+        }
+
+
+### POST User Registration [POST]
+Create User Registration to Course & Register Student to all Goals
+
++ Request (application/json)
+
+        {
+            "type": "learner||instructor||TA||admin"
+        }
++ Response 200 (application/json)
+
+        {
+            "reg_id": "3rd party registration ID"
+        }
+        
+### DELETE User Registration [DELETE]
+Remove the User from the Course
+
++ Response 200 
+        
+##Group Goals
+Resource related to the Goals for a Course
+
+## Goals [/goals/{course_id}/{name}/{goal_id}]
+A Goal object has the following attributes:
+
++ goal_id: the 3rd party Goal ID
++ course_id: the Cengage Course Key to which the Goal belongs
++ activity_id: the Cengage activity ID for the Goal
++ name: the name of the Goal
++ start_date: available date of the Goal
++ target_date: date by which the Goal should be met
++ target_score: score needed to achieve mastery of the Goal
+
++ Parameters
+    + course_id: "MTABCD1EF23G" (required, string) - Cengage Course Key
+    + name: "goal_name" (optional, string) - Goal name to retrieve or update
+    + goal_id: "goalID" (required, string) - ID of goal o be updated
+    
+
+### View Goals by Course or Goal Name [GET] 
+View all Goals defined for a Course or View Goal by Name
+
++ Response 200 (application/json)
+
+        {
+            [
+            "id" : "goal ID",
+            "name" : "Name of Goal" ,
+            "target_modules": [ {
+                        "module_id" :  "mref-853cb3c2-3ceb-4a5a-bdc0-ebce7895d8d3",
+                        "target_date" : "2013-04-12T17:00:00.000Z",
+                        "target_score" : 0.75 } ],
+            "reco_modules" : [],
+            "rec_modules_alt" : {
+                        "include" :  [
+                            { "taxon_id" : "tref-TOC:Ch3|Section1" },
+                            { "taxon_id" : "tref-TOC:Ch3|Section2" } ,
+                            { "module_id" :"mref-744ab4f1-3fbb-5b4c-dba0-ffbb8141a6a3" } ],
+                        "exclude" : [
+                            { "taxon_id" : "tref-TOC:Ch3|Section1|Exam" },
+                            { "taxon_id" : "tref-TOC:Ch3|Section2|Exam" } ,
+                            { "module_id" :"mref-744ab513-3fbb-5b4c-dba0-ffbb8141a6a3" } ]},
+            "max_reco_size" : 5,
+            "start_date" : "2016-01-01T09:00:00.000Z",
+            "metrics_enabled" : true
+            ]
+        }
+        
+### Add Goals to Course [POST] 
+Add a Goal to Course & Register All Students to Goal
+
++ Request (application/json)
+
+        {
+            "name" : "Name of Goal" ,
+            "target_modules": [ {
+                        "module_id" :  "mref-853cb3c2-3ceb-4a5a-bdc0-ebce7895d8d3",
+                        "target_date" : "2013-04-12T17:00:00.000Z",
+                        "target_score" : 0.75 } ],
+            "reco_modules" : [],
+            "rec_modules_alt" : {
+                        "include" :  [
+                            { "taxon_id" : "tref-TOC:Ch3|Section1" },
+                            { "taxon_id" : "tref-TOC:Ch3|Section2" } ,
+                            { "module_id" :"mref-744ab4f1-3fbb-5b4c-dba0-ffbb8141a6a3" } ],
+                        "exclude" : [
+                            { "taxon_id" : "tref-TOC:Ch3|Section1|Exam" },
+                            { "taxon_id" : "tref-TOC:Ch3|Section2|Exam" } ,
+                            { "module_id" :"mref-744ab513-3fbb-5b4c-dba0-ffbb8141a6a3" } ]},
+            "max_reco_size" : 5,
+            "start_date" : "2016-01-01T09:00:00.000Z",
+            "metrics_enabled" : true
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "goal_id": "goal ID"
+        }
+        
+### Update a  Goal in a Course [PUT] 
+Updates a Goal in a Course by goal_id or name
+
++ Parameters
+    + goal_id: "goalID" (required, string) - ID of goal to be updated
+    + name: "name of goal" (optional, string) - name of goal to be updated
+
++ Request (application/json)
+
+        {
+            [
+            "id" : "goal ID",
+            "name" : "Name of Goal" ,
+            "target_modules": [ {
+                        "module_id" :  "mref-853cb3c2-3ceb-4a5a-bdc0-ebce7895d8d3",
+                        "target_date" : "2013-04-12T17:00:00.000Z",
+                        "target_score" : 0.75 } ],
+            "reco_modules" : [],
+            "rec_modules_alt" : {
+                        "include" :  [
+                            { "taxon_id" : "tref-TOC:Ch3|Section1" },
+                            { "taxon_id" : "tref-TOC:Ch3|Section2" } ,
+                            { "module_id" :"mref-744ab4f1-3fbb-5b4c-dba0-ffbb8141a6a3" } ],
+                        "exclude" : [
+                            { "taxon_id" : "tref-TOC:Ch3|Section1|Exam" },
+                            { "taxon_id" : "tref-TOC:Ch3|Section2|Exam" } ,
+                            { "module_id" :"mref-744ab513-3fbb-5b4c-dba0-ffbb8141a6a3" } ]},
+            "max_reco_size" : 5,
+            "start_date" : "2016-01-01T09:00:00.000Z",
+            "metrics_enabled" : true
+            ]
+        }
+        
++ Response 200
+
+## Group Events
+
+Resources related to student events in the API.
+
+## Events [/content/{uuid}/{content_id}/{start_time}/{end_time}/{type}/{is_correct}/{reco_id}]
+
+An Event object has the following attributes:
++ uuid: ID of the user for which to post event
++ content_id: ID of the content for which to post event
++ start_time: the time the event was started
++ end_time: the time the event was completed
++ type: the type of content (narrative, assessment, media, etc)
++ is_correct: boolean to indicate if assessment material is correct
++ reco_id: ID of the recommendation for which an event is being sent
+
+### Send a completed event [POST] 
+Post a completed event for the user, including recommendation followed
+        
+        
++ Response 200 (application/json)
+
+## Group Recommendation
+
+Resources related to recommendations in the API
+
+## Recommendation [/recommendation/{uuid}/{goal_id}]
+
+A Recommendation object has the following attributes:
++ uuid: ID of the user for which to request a recommended piece of content
++ goal_id: the ID of the goal that the student is working toward
++ reco_id: the ID of the next recommendation to serve the student
+
+### Get the next recommendation [GET]
+Get the next recommendation for the user; automatically sends a focus event
+
++ Response 200 (application/json)
+
+        {
+            reco_id: "recommendation ID"
+        }
+
+        
+        
+
+
+        
+
+
+
+
+
+
+
+
+
+        
+        
+        
+        
+    
+        
+
+
+
+
+
+
+
+
+
+
