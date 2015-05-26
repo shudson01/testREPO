@@ -97,11 +97,11 @@ This action allows you to add a new piece of content into CES.
             "is_recommendable": "true or false"
         }
 
-+ Response 201
++ Response 200
 
 ### Update Content in CES [PUT]
 
-This action allows you to update a piece of content in CES.  You may provide a partial update or replace everything.
+This action allows you to update a piece of content in CES.  You may provide a partial update (replace only specified params) or replace everything.
     
 + Request (application/json)
 
@@ -144,7 +144,10 @@ A Course object has the following attributes:
 + partner_id: 3rd party course ID
 + start_date: Course start date
 + end_date: Course end date
++ graph_id: 3rd party ID of the course graph
 + is_gated: boolean indicating whether course is gated
++ in_progress: boolean indicating whether the course has begun
+
 
 + Parameters
     + course_id: "coursekey" (required, string) - Cengage Course ID
@@ -156,11 +159,11 @@ This action will retrieve a 3rd party course ID from the database
 
         {
             "id": "cengage course key",
-            "partner_id": "3rd party content ID",
+            "partner_id": "3rd party course ID",
             "title": "title",
             "isbn": "sso_isbn",
-            "start_date":"01012016",
-            "end_date":"01012017",
+            "start_date":"2016-01-01T09:00:00.000Z",
+            "end_date":"2017-01-01T09:00:00.000Z",
             "graph_id": "graphID",
             "is_gated": "true or false"
         }
@@ -174,8 +177,8 @@ This action will create a Course in 3rd party and add to CES
         {
             "graph_id": "graphID",
             "course_name": "title",
-            "start_date": "01012016",
-            "end_date": "01012017",
+            "start_date": "2016-01-01T09:00:00.000Z",
+            "end_date": "2017-01-01T09:00:00.000Z",
             "is_gated": "true",
             "isbn": "sso_isbn"
         }
@@ -187,14 +190,16 @@ This action will create a Course in 3rd party and add to CES
             "partner_id": "3rd party course ID",
             "title": "title",
             "isbn": "sso_isbn",
-            "start_date":"01012016",
-            "end_date":"01012017",
+            "start_date":"2016-01-01T09:00:00.000Z",
+            "end_date":"2017-01-01T09:00:00.000Z",
             "graph_id": "graphID",
             "is_gated": "true",
             "in_progress": "true"
         }
         
 ### Delete Course [DELETE]
+This action will delete a course in CES & send any supported action to 3rd party
+
 + Response 200 (application/json)
 
 ##Group User
@@ -244,8 +249,8 @@ Create & authenticate User Account in 3rd party & add to CES
             "access_token": "3rd party access token",
             "refresh_token": "3rd party refresh token",
             "auth_code": "3rd party auth code",
-            "expires": "authentication expiration date",
-            "last_login": "time of last login"
+            "expires": "2017-01-01T09:00:00.000Z",
+            "last_login": "2016-01-01T09:00:00.000Z"
         }
         
 ### Refresh authentication of User Account [PUT]
@@ -259,8 +264,8 @@ Refresh authentication of User Account in 3rd party & CES
             "access_token": "3rd party access token",
             "refresh_token": "3rd party refresh token",
             "auth_code": "3rd party auth code",
-            "expires": "authentication expiration date",
-            "last_login": "time of last login"
+            "expires": "2018-01-01T09:00:00.000Z",
+            "last_login": "2017-01-01T09:00:00.000Z"
         }        
         
 ##Group User Registration
@@ -313,7 +318,7 @@ Remove the User from the Course
 ##Group Goals
 Resource related to the Goals for a Course
 
-## Goals [/goals/{course_id}/{name}/{goal_id}]
+## Goals [/goals/]
 A Goal object has the following attributes:
 
 + goal_id: the 3rd party Goal ID
@@ -324,14 +329,18 @@ A Goal object has the following attributes:
 + target_date: date by which the Goal should be met
 + target_score: score needed to achieve mastery of the Goal
 
-+ Parameters
-    + course_id: "MTABCD1EF23G" (required, string) - Cengage Course Key
-    + name: "goal_name" (optional, string) - Goal name to retrieve or update
-    + goal_id: "goalID" (required, string) - ID of goal o be updated
     
 
-### View Goals by Course or Goal Name [GET] 
-View all Goals defined for a Course or View Goal by Name
+### View Goals by Course or Goal Name or Goal ID [GET] 
+View all Goals defined for a Course 
+OR View Goal by Name 
+OR View Goal by ID
+
++ Request (application/json)
+
+        {
+            "course_id" || "name" || "goal_id": "course ID" || "name" || "goal ID"
+        }
 
 + Response 200 (application/json)
 
@@ -392,11 +401,7 @@ Add a Goal to Course & Register All Students to Goal
         }
         
 ### Update a  Goal in a Course [PUT] 
-Updates a Goal in a Course by goal_id or name
-
-+ Parameters
-    + goal_id: "goalID" (required, string) - ID of goal to be updated
-    + name: "name of goal" (optional, string) - name of goal to be updated
+Updates a Goal in a Course 
 
 + Request (application/json)
 
@@ -430,7 +435,7 @@ Updates a Goal in a Course by goal_id or name
 
 Resources related to student events in the API.
 
-## Events [/content/{uuid}/{content_id}/{start_time}/{end_time}/{type}/{is_correct}/{reco_id}]
+## Event [/content/{uuid}/{content_id}/{start_time}/{end_time}/{type}/{is_correct}/{reco_id}]
 
 An Event object has the following attributes:
 + uuid: ID of the user for which to post event
@@ -442,12 +447,12 @@ An Event object has the following attributes:
 + reco_id: ID of the recommendation for which an event is being sent
 
 ### Send a completed event [POST] 
-Post a completed event for the user, including recommendation followed
+Post a completed event for the user; automatically sends recommendation followed
         
         
 + Response 200 (application/json)
 
-## Group Recommendation
+## Group Recommendations
 
 Resources related to recommendations in the API
 
@@ -466,7 +471,29 @@ Get the next recommendation for the user; automatically sends a focus event
         {
             reco_id: "recommendation ID"
         }
+        
+## Group Reports
 
+Resources related to reporting metrics in the API
+
+## Report [/report/{data_grouping}/{id}/{metric_name}]
+
+A Report object has the following attributes:
++ data_grouping: type of data for which to generate a report (course or student)
++ id: ID of the user or course, depending on the data grouping, for which to request a report
++ course_id: ID of the course for which to request a report
++ metric_name: name of the reporting metric (active_time, proficiency, expected_score, readiness)
+
+### Generate a report [GET]
+Get the report for a specific user or for a whole class
+
++ Request (application/json)
+
+        {
+            
+        }
+        
++ Response 200 (application/json)
         
         
 
