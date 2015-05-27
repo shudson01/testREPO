@@ -15,6 +15,9 @@ To view/edit using Apiary:
 2. choose "Quick start with GitHub"
 3. login to your GitHub account
 4. In Apiary, go to "Settings"
-5. Choose to link to the repository where the *.apib exists (currently shudson/testREPO; in GitHub, search for repository "user:shudson01 testREPO")
+5. Choose to link to the repository where the *.apib exists 
+  a. (currently shudson/testREPO; in GitHub, search for repository "user:shudson01 testREPO").  
+  b. If testREPO is being used, you may need to ask to be added as a collaborator.
+  c. when linking to repository, choose to load existing blueprint; DO NOT overwrite.
 6. In Apiary, use the drop down at the top left corner to choose or search for "adaptiveapi"
-7. You should now be able to view or edit the blueprint
+7. You should now be able to view or edit the adaptiveapi blueprint.
