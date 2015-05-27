@@ -1,5 +1,5 @@
 # testREPO
-ch
+
 The testREPO repository:
 This repository was created for storing the Apiary output for the AdaptiveAPI documentation.  It is public, so that it can be accessible
 to all members the adaptive project team.
