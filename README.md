@@ -9,7 +9,9 @@ This API is intended to abstract 3rd party calls (whether external or internal) 
 what is currently needed for the Knewton integration and may need to be expanded to meet the needs of other adaptive engines.
 
 The Apiary doc:
-The "apiary.apib" file may be viewed with a text editor, but it is intended to be viewed via Apiary.  
+The "apiary.apib" file may be viewed with a text editor, but it is intended to be viewed via Apiary.  You can only link Apiary to
+a GitHub repository (stash is not yet supported).
+
 To view/edit using Apiary:
 1. go to "https://apiary.io/"
 2. choose "Quick start with GitHub"
