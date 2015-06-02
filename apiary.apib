@@ -402,6 +402,7 @@ Returns the Goal ID.
 + Request (application/json)
 
         {
+            "course_id" : "Cengage course key",
             "name" : "Name of Goal" ,
             "target_modules": [ {
                         "module_id" :  "mref-853cb3c2-3ceb-4a5a-bdc0-ebce7895d8d3",
@@ -458,6 +459,18 @@ Updates an existing Goal in a Course.  Accepts a partial or complete update.
         
 + Response 200
 
+### DELETE an existing Goal from a Course [DELETE] 
+Deletes an existing Goal from a Course.  
+
++ Request (application/json)
+
+        {
+        "course_id": "Cengage course key",
+        "goal_id": "ID of the goal"
+        }
+        
++ Response 200
+        
 ## Group Events
 
 Resources related to student events.
