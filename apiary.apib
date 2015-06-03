@@ -326,7 +326,7 @@ Unregister the User from the Course.
 ##Group Goals
 Resource related to the Goals for a Course.
 
-## Goal [/goal/]
+## Goal [/goal/{qualifier}/{attribute}]
 A Goal object has the following attributes:
 
 + goal_id: the 3rd party Goal ID
@@ -349,25 +349,16 @@ OR View Goal by Name
 OR View Goal by ID.
 Returns a list of Goals.
 
-+ Request (application/json)
+Query parameters:
+qualifier = "course_id" || "name" || "goal_id"
 
-        {
-            "course_id" : "course ID" 
-        }
-        
-+ Request (application/json)
+Ex: 
 
-        {
-            "name" : "name"
-        }
-        
-+ Request (application/json)
+/goal/course_id/"MTcourseKey"
 
-        {
-            "goal_id" : "goal ID"
-        }
-        
+/goal/name/"goalName"
 
+/goal/goal_id/"goalID"
 
 + Response 200 (application/json)
 
@@ -549,7 +540,7 @@ A Report object has the following attributes:
 
 
 
-### GET a report [GET]
+### POST a report [POST]
 Get a report for a specific student User or for all Users Registered to a Course
 
 + Parameters
@@ -557,7 +548,6 @@ Get a report for a specific student User or for all Users Registered to a Course
     + id: "courseKey" (required, string) - Cengage Course Key
     + metric : "proficiency" (required, string) - reporting metric
     
-
 + Request (application/json)
 
         {
