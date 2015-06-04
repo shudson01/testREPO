@@ -30,7 +30,7 @@ to keep your client decoupled from implementation details.
 
 Resources related to Content.
 
-## Content [/content/{content_type}/{content_id}]
+## Content [/content/{content_type}/{id_type}/{content_id}]
 
 A Content object has the following attributes:
 
@@ -49,11 +49,12 @@ A Content object has the following attributes:
 
 + Parameters
     + content_type: "media, narrative, assessment" (required, string) - type of content in form of a string
-    + content_id: "3RDPartyID"
+    + id_type: "cengage, other" (required, string) - party to which the ID being queried belongs
+    + content_id: "cengageID, 3RDPartyID" (required, string) - ID of the content
     
 ### Get Content Details [GET]
 
-This action will retrieve a Cengage content ID & other details from CES.
+This action will retrieve content details from CES.
 
 
 + Response 200 (application/json)
@@ -537,7 +538,6 @@ A Report object has the following attributes:
 + previous: previous registration offset & per page
 + column_headers: lists order of content
 + rows: rows of data containing reporting values
-
 
 
 ### POST a report [POST]
