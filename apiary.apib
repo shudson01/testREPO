@@ -36,10 +36,10 @@ A Content object has the following attributes:
 
 + id: the Cengage Content ID
 + partner_id: the corresponding 3rd party's Content ID
-+ type: the type of content (narrative, assessment, media, keyterm)
++ type: the type of content; valid values: {narrative, assessment, media, keyterm}
 + child_ids: in case of narrative content, the IDs of the children content
 + urn: in case of media content, the corresponding cxp_urn
-+ content_location: Cengage location (cxp, narrative_svc)
++ content_location: Cengage location; valid values: {cxp, narrative}
 + isbn: the SSO isbn of the corresponding book to which the content belongs
 + chapter_id: an array of chapter IDs to which the content belongs
 + learning_obj_id: an array of learning objective IDs to which the content belongs
@@ -54,6 +54,8 @@ A Content object has the following attributes:
 ### Get Content Details [GET]
 
 This action will retrieve content details from CES.
+
+Valid values for id_type: {cengage, other}
 
 Ex:
 
@@ -94,7 +96,7 @@ This action allows you to insert a new piece of content into CES.
         {
             "id": "cengage_id",
             "partner_id": "3rd party content ID",
-            "type": "content_type",
+            "type": "narrative",
             "name": "title",
             "child_ids": "b_head_id, c_head_id",
             "cxp_urn": "urn_id",
@@ -114,14 +116,13 @@ This action allows you to insert a new piece of content into CES.
 ### PUT Content into CES [PUT]
 
 This action allows you to update a piece of content in CES.  
-You may provide a partial update (replace only specified params) or replace everything.
     
 + Request (application/json)
 
         {
             "id": "cengage_id",
             "partner_id": "3rd party content ID",
-            "type": "content_type",
+            "type": "narrative",
             "name": "title",
             "child_ids": "b_head_id, c_head_id",
             "cxp_urn": "urn_id",
@@ -294,7 +295,7 @@ A User Registration object has the following attributes:
 + uuid: Cengage user ID
 + course_id: Cengage Course Key
 + reg_id: 3rd party Registration ID
-+ type: type of user (instructor, learner, TA, admin)
++ type: type of user; Valid values: {instructor, learner, TA, admin}
 
 
 ### GET User Registration by Course [GET] 
@@ -430,8 +431,7 @@ Returns the Goal ID.
         }
         
 ### PUT an existing Goal in a Course - update [PUT] 
-Updates an existing Goal in a Course.  Accepts a partial or complete update.
-"id" is required.
+Updates an existing Goal in a Course. 
 
 + Request (application/json)
 
@@ -482,7 +482,7 @@ An Event object has the following attributes:
 + content_id: ID of the content for which to post event
 + start_time: the time the event was started
 + end_time: the time the event was completed
-+ type: the type of content (narrative, assessment, media, etc)
++ type: the type of content; Valid values: {narrative, assessment, media, keyterm}
 + is_correct: boolean to indicate if assessment material is correct
 + reco_id: ID of the recommendation for which an event is being sent
 
@@ -529,10 +529,10 @@ Resources related to Reporting metrics.
 ## Report [/report/{data_grouping}/{id}/{metric}]
 
 A Report object has the following attributes:
-+ data_grouping: type of data for which to generate a report (course or student)
++ data_grouping: type of data for which to generate a report; Valid values: {course,student}
 + id: ID of the user or course, depending on the data grouping, for which to request a report
 + course_id: ID of the course for which to request a report
-+ metric: name of the reporting metric (active_time, proficiency, expected_score, readiness)
++ metric: name of the reporting metric; Valid values: {active_time, proficiency, expected_score, readiness}
 + start_date: start date of reporting metric
 + end_date: end date of reporting metric
 + taxon_ids: list of taxon ids for which to generate a report
@@ -552,7 +552,7 @@ A Report object has the following attributes:
 Get a report for a specific student User or for all Users Registered to a Course
 
 + Parameters
-    + data_grouping:     "course" (required, string) - Cengage Course ID
+    + data_grouping:     "course" (required, string) - string literals "course" or "user"
     + id: "courseKey" (required, string) - Cengage Course Key
     + metric : "proficiency" (required, string) - reporting metric
     
