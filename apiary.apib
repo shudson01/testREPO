@@ -229,6 +229,7 @@ A User Account object has the following attributes:
 + uuid: Cengage user ID
 + partner_id: 3rd party user ID
 + access_token: 3rd party access token
++ auth_type: type of user auth between app & 3rd party; Valid values: {2-legged,3-legged}
 + refresh_token: 3rd party refresh token
 + auth_code: 3rd party auth code
 + expires: authentication expiration date
@@ -245,6 +246,7 @@ Get 3rd Party User Account ID from CES.
         {
             "uuid": "cengage user ID",
             "partner_id": "3RDPARTYID",
+            "auth_type": "3-legged",
             "access_token": "3rd party access token",
             "refresh_token": "3rd party refresh token",
             "auth_code": "3rd party auth code",
