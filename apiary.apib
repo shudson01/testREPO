@@ -30,16 +30,16 @@ to keep your client decoupled from implementation details.
 
 Resources related to Content.
 
-## Content [/content/{content_type}/{id_type}/{content_id}]
+## Content [/content/{id_type}/{content_id}]
 
 A Content object has the following attributes:
 
 + id: the Cengage Content ID
 + partner_id: the corresponding 3rd party's Content ID
-+ type: the type of content (narrative, assessment, media, key term, web resource)
-+ name: the title of the content
++ type: the type of content (narrative, assessment, media, keyterm)
 + child_ids: in case of narrative content, the IDs of the children content
-+ cxp_urn: in case of media content, the corresponding cxp_urn
++ urn: in case of media content, the corresponding cxp_urn
++ content_location: Cengage location (cxp, narrative_svc)
 + isbn: the SSO isbn of the corresponding book to which the content belongs
 + chapter_id: an array of chapter IDs to which the content belongs
 + learning_obj_id: an array of learning objective IDs to which the content belongs
@@ -48,13 +48,18 @@ A Content object has the following attributes:
 
 
 + Parameters
-    + content_type: "media, narrative, assessment" (required, string) - type of content in form of a string
     + id_type: "cengage, other" (required, string) - party to which the ID being queried belongs
-    + content_id: "cengageID, 3RDPartyID" (required, string) - ID of the content
+    + content_id: "cengageID, 3RDPartyID" (required, string) - ID of the content being queried
     
 ### Get Content Details [GET]
 
 This action will retrieve content details from CES.
+
+Ex:
+
+/content/cengage/"cengageID"
+
+/content/other/"3rdPartyID"
 
 
 + Response 200 (application/json)
@@ -65,7 +70,8 @@ This action will retrieve content details from CES.
             "type": "content_type",
             "name": "title",
             "child_ids": "b_head_id, c_head_id",
-            "cxp_urn": "urn_id",
+            "content_location": "cxp",
+            "urn": "urn_id",
             "isbn": "sso_isbn",
             "chapter_id":[{
                 chapter_id_1,
@@ -78,10 +84,10 @@ This action will retrieve content details from CES.
         }
 
 
-
 ### POST Content into CES [POST]
 
 This action allows you to insert a new piece of content into CES.
+
     
 + Request (application/json)
 
